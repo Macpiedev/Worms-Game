@@ -4,21 +4,29 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
-    public GameManager gameManager;
+    public PlayerManager playerManager;
 
     void Update() {
         if(Input.GetKey("d"))
         {
-            gameManager.playerMove(Move.Right);
+            playerManager.move(Move.Right);
         }
         
         if(Input.GetKey("a"))
         {
-            gameManager.playerMove(Move.Left);
+            playerManager.move(Move.Left);
         }
 
         if(Input.GetKeyDown(KeyCode.Space)){
-            gameManager.playerMove(Move.Jump);
+            playerManager.move(Move.Jump);
+        }
+
+        if(Input.GetKeyDown(KeyCode.LeftArrow)){
+            playerManager.changePlayer(-1);
+        }
+
+        if(Input.GetKeyDown(KeyCode.RightArrow)){
+            playerManager.changePlayer(1);
         }
     }
 }
