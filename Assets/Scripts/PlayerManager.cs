@@ -22,7 +22,7 @@ public class PlayerManager : MonoBehaviour
 
         currentPlayer = team1Players[0];
         currentPlayerId = 0;
-        currentPlayer.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+        currentPlayer.GetComponentInChildren<Shooting>().setTurn(true);
        
         started = true;
     }
@@ -45,6 +45,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     public void changePlayer() {
+        currentPlayer.GetComponentInChildren<Shooting>().setTurn(false);
         if(team1) {
             currentPlayerId = ++currentPlayerId % teamSize;
             currentPlayer = team1Players[currentPlayerId];
@@ -52,6 +53,8 @@ public class PlayerManager : MonoBehaviour
             currentPlayer = team2Players[currentPlayerId];
         }
         
+        Shooting shootingComponent = currentPlayer.GetComponentInChildren<Shooting>();
+        shootingComponent.setTurn(true);
     }
 
     public void move(Move movement) {

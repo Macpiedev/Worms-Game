@@ -128,6 +128,7 @@ MonoBehaviour:
   sidewaysForce: 500
   jumpForce: 2
   moveForce: 5
+  moveLimit: 40
 --- !u!54 &350445812196281038
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -228,8 +229,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletTransform: {fileID: 764009129589779170}
   bullet: {fileID: 8493025445374037968}
-  timeBetweenFiring: 1
-  canFire: 1
 --- !u!1 &5761331724500734455
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,23 +7,32 @@ public class Shooting : MonoBehaviour
     private Vector3 mousePos;
     public Transform bulletTransform;
     public GameObject bullet;
+    private bool isTurn = false;
 
     void Start()
     {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        bullet.active = false;
     }
 
     void Update()
     {
-        float playerAndCamPosDiffZ = transform.position.z - mainCamera.transform.position.z;
-        Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition + Vector3.forward * playerAndCamPosDiffZ);
+        if(isTurn) {
+            bullet.active = true;
+            float playerAndCamPosDiffZ = transform.position.z - mainCamera.transform.position.z;
+            Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition + Vector3.forward * playerAndCamPosDiffZ);
+            
+            Vector3 rotation = mousePos - transform.position;
 
-        
-        Vector3 rotation = mousePos - transform.position;
+            float rotZ = Mathf.Atan2(rotation.y,  rotation.x) * Mathf.Rad2Deg;
 
-        float rotZ = Mathf.Atan2(rotation.y,  rotation.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, rotZ);
+        }
+    }
 
-        transform.rotation = Quaternion.Euler(0, 0, rotZ);
+    public void setTurn(bool value) {
+        bullet.active = value;
+        isTurn = value;
     }
 
     public void shoot() {

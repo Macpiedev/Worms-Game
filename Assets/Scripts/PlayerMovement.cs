@@ -16,6 +16,8 @@ public class PlayerMovement : MonoBehaviour
     public float sidewaysForce = 500f;
     public float jumpForce = 2.0f;
     public float moveForce = 5.0f;
+    private float moveCounter = 0;
+    public float moveLimit = 40.0f;
 
     void Start(){
         rigidBody = GetComponent<Rigidbody>();
@@ -27,6 +29,10 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public void move(Move movement) {
+        moveCounter += moveForce * Time.deltaTime;
+        if(moveCounter > 50.0f) {
+            return;
+        }
         switch(movement)
         {
             case Move.Left:
