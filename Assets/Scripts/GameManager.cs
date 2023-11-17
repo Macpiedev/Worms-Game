@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public PlayerMovement playerMovement;
-    //public Shooting shooter;
+    public PlayerManager playerManager;
 
     public void playerMove(Move move) {
         if(move != Move.Shoot) {
-            playerMovement.move(move);
+            playerManager.move(move);
         }
 
     }
