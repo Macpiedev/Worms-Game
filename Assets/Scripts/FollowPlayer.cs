@@ -7,6 +7,8 @@ public class FollowPlayer : MonoBehaviour
 
     void Update()
     {
-        transform.position = playerManager.currentPlayerPosition() + offset;
+        if(playerManager.playersExists()) {
+            transform.position = playerManager.currentPlayerPosition() + offset;
+        }
     }
 }

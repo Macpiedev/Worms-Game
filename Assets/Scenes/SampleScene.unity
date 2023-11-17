@@ -1633,7 +1633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5195022ada3aa54cbe273f62444d5e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerManager: {fileID: 0}
+  playerManager: {fileID: 1046850935}
   offset: {x: 0, y: 5, z: -50}
 --- !u!1 &1046850934
 GameObject:
@@ -1666,7 +1666,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamSize: 1
   playerObject: {fileID: 886311974010097721, guid: 6398d277af286484ca50e74d40e12244, type: 3}
-  currentPlayer: {fileID: 0}
+  minPlayerSpawnPositionX: -10
+  maxPlayerSpawnPositionX: 10
 --- !u!4 &1046850936
 Transform:
   m_ObjectHideFlags: 0
@@ -2699,7 +2700,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93ec20920dc1e994cb35a16d175183f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMovement: {fileID: 0}
+  playerManager: {fileID: 1046850935}
 --- !u!4 &1786985575
 Transform:
   m_ObjectHideFlags: 0
