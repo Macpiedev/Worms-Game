@@ -12,10 +12,9 @@ public class PlayerManager : MonoBehaviour
     private List<GameObject> team1Players = new List<GameObject>();
     private List<GameObject> team2Players = new List<GameObject>();
     private bool started = false;
+    private bool team1 = true;
     
     void Start() {
-        
-
         for(int i=0; i < teamSize; i++) {
             team1Players.Add(spawn());
             team2Players.Add(spawn());
@@ -39,19 +38,26 @@ public class PlayerManager : MonoBehaviour
         return currentPlayer.transform.position;
     }
 
-    float nfmod(float a,float b)
-    {
-        return a - b * Mathf.Floor(a / b);
-    }
-
-    public void changePlayer(int change) {
-        currentPlayerId = (int)nfmod(currentPlayerId + change, teamSize);
-        currentPlayer = team1Players[currentPlayerId];
+    public void changePlayer() {
+        if(team1) {
+            currentPlayerId = ++currentPlayerId % teamSize;
+            currentPlayer = team1Players[currentPlayerId];
+        } else {
+            currentPlayerId = ++currentPlayerId % teamSize;
+            currentPlayer = team2Players[currentPlayerId];
+        }
+        
     }
 
     public void move(Move movement) {
         if(started) {
            currentPlayer.GetComponent<PlayerMovement>().move(movement);
         }
+    }
+
+    public void shoot() {
+        currentPlayer.GetComponentInChildren<Shooting>().shoot();
+        team1 = false;
+        Invoke("changePlayer", 1);
     }
 }
