@@ -16,14 +16,20 @@ public class PlayerManager : MonoBehaviour
     
     void Start() {
         for(int i=0; i < teamSize; i++) {
-            team1Players.Add(spawn());
-            team2Players.Add(spawn());
+            team1Players.Add(setPlayerColor(spawn(), Color.red));
+            team2Players.Add(setPlayerColor(spawn(), Color.blue));
         }
 
         currentPlayer = team1Players[0];
         currentPlayerId = 0;
+        currentPlayer.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
        
         started = true;
+    }
+
+    GameObject setPlayerColor(GameObject player, Color color) {
+        player.GetComponent<Renderer>().material.SetColor("_Color", color);
+        return player;
     }
 
     public bool playersExists() {
@@ -43,7 +49,6 @@ public class PlayerManager : MonoBehaviour
             currentPlayerId = ++currentPlayerId % teamSize;
             currentPlayer = team1Players[currentPlayerId];
         } else {
-            currentPlayerId = ++currentPlayerId % teamSize;
             currentPlayer = team2Players[currentPlayerId];
         }
         
@@ -57,7 +62,7 @@ public class PlayerManager : MonoBehaviour
 
     public void shoot() {
         currentPlayer.GetComponentInChildren<Shooting>().shoot();
-        team1 = false;
+        team1 = !team1;
         Invoke("changePlayer", 1);
     }
 }
