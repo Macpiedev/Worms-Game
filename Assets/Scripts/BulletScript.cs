@@ -12,6 +12,14 @@ public class BulletScript : MonoBehaviour
 
 
     public void Shoot() {
+        CapsuleCollider capsuleCollider = GetComponent<CapsuleCollider>();
+
+        if (capsuleCollider != null)
+        {
+            capsuleCollider.enabled = true;
+        }
+
+
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         rigidBody = GetComponent<Rigidbody>();
 
@@ -24,7 +32,7 @@ public class BulletScript : MonoBehaviour
 
     void OnCollisionEnter(Collision collisionInfo) 
     {
-        if(collisionInfo.collider.tag == "Player")
+        if(collisionInfo.collider.tag == "Player" && !rigidBody.isKinematic)
         {
             Destroy(gameObject);
         }
