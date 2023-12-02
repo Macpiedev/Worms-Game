@@ -32,25 +32,32 @@ public class PlayerMovement : MonoBehaviour
         moveCounter = 0;
     }
 
+    public float getMoveCounter() {
+        return moveCounter;
+    }
+
+    public float getMoveLimit() {
+        return moveLimit;
+    }
+
     public void move(Move movement) {
-        moveCounter += moveForce * Time.deltaTime;
-        if(moveCounter > moveLimit) {
-            return;
-        }
-        switch(movement)
-        {
-            case Move.Left:
-                transform.Translate(-moveForce* Time.deltaTime,0,0, Space.World);
-                break;
-            case Move.Right:
-                transform.Translate(moveForce* Time.deltaTime,0,0, Space.World);
-                break;
-            case Move.Jump:
-                if(isGrounded) {
-                    isGrounded = false;
-                    rigidBody.AddForce(jump * jumpForce, ForceMode.Impulse);
-                }
-                break;
+        if(moveCounter < moveLimit) {
+            moveCounter += moveForce * Time.deltaTime;
+            switch(movement)
+            {
+                case Move.Left:
+                    transform.Translate(-moveForce* Time.deltaTime,0,0, Space.World);
+                    break;
+                case Move.Right:
+                    transform.Translate(moveForce* Time.deltaTime,0,0, Space.World);
+                    break;
+                case Move.Jump:
+                    if(isGrounded) {
+                        isGrounded = false;
+                        rigidBody.AddForce(jump * jumpForce, ForceMode.Impulse);
+                    }
+                    break;
+            }
         }
     }
 
