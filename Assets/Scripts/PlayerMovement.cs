@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 2.0f;
     public float moveForce = 5.0f;
     private float moveCounter = 0;
-    public float moveLimit = 40.0f;
+    public float moveLimit = 10.0f;
 
     void Start(){
         rigidBody = GetComponent<Rigidbody>();
@@ -28,9 +28,13 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = true;
     }
 
+    public void resetMoveCounter() {
+        moveCounter = 0;
+    }
+
     public void move(Move movement) {
         moveCounter += moveForce * Time.deltaTime;
-        if(moveCounter > 50.0f) {
+        if(moveCounter > moveLimit) {
             return;
         }
         switch(movement)

@@ -65,7 +65,8 @@ public class PlayerManager : MonoBehaviour
 
     public void shoot() {
         currentPlayer.GetComponentInChildren<Shooting>().shoot();
+        currentPlayer.GetComponent<PlayerMovement>().resetMoveCounter();
         team1 = !team1;
-        Invoke("changePlayer", 1);
+        Invoke("changePlayer", 2);
     }
 }
