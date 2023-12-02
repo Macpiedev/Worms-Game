@@ -22,4 +22,12 @@ public class BulletScript : MonoBehaviour
         rigidBody.velocity = rotation.normalized * force;
     }
 
+    void OnCollisionEnter(Collision collisionInfo) 
+    {
+        if(collisionInfo.collider.tag == "Player")
+        {
+            Destroy(gameObject);
+        }
+    }
+
 }
