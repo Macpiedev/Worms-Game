@@ -12,8 +12,19 @@ public class CameraManager : MonoBehaviour
     public Vector3 offset;
     public float smoothSpeed = 0.125f;
     public float cameraMoveSpeed = 5.0f;
-
     public bool followPlayer = true;
+
+    private float zoom;
+    private float zoommultiplier = 11f;
+    private float minZoom = 20f;
+    private float maxZoom = 100f;
+    private float velocity = 0f;
+    private float smoothTime = 0.40f;
+
+    void Start()
+    {
+        zoom = GetComponent<Camera>().fieldOfView;
+    }
 
     void FixedUpdate()
     {
@@ -21,7 +32,16 @@ public class CameraManager : MonoBehaviour
         {
             goToPlayer();
         }
+
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        zoom -= scroll * zoommultiplier;
+        zoom = Mathf.Clamp(zoom, minZoom, maxZoom);
+        Camera thisCamera = GetComponent<Camera>();
+        thisCamera.fieldOfView =  Mathf.SmoothDamp(thisCamera.fieldOfView, zoom, ref velocity, smoothTime);
     }
+
+
+
     private void goToPlayer()
     {   
         Vector3 desiredPosition = playerManager.currentPlayerPosition() + offset;

@@ -11,6 +11,7 @@ public class EventManager : MonoBehaviour
     public float timeBetweenFiring;
 
     void Update() {
+
         if(Input.GetKey("d"))
         {
             playerManager.move(PlayerMove.Right);
