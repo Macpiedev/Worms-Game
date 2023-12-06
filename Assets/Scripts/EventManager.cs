@@ -5,6 +5,7 @@ using UnityEngine;
 public class EventManager : MonoBehaviour
 {
     public PlayerManager playerManager;
+    public CameraManager cameraManager;
     public bool canFire = true;
     private float timer;
     public float timeBetweenFiring;
@@ -12,16 +13,40 @@ public class EventManager : MonoBehaviour
     void Update() {
         if(Input.GetKey("d"))
         {
-            playerManager.move(Move.Right);
+            playerManager.move(PlayerMove.Right);
         }
         
         if(Input.GetKey("a"))
         {
-            playerManager.move(Move.Left);
+            playerManager.move(PlayerMove.Left);  
+        }
+
+        if(Input.GetKey(KeyCode.RightArrow))
+        {
+            cameraManager.followPlayer = false;
+            cameraManager.move(CameraMove.Right);
+        }
+
+        if(Input.GetKey(KeyCode.LeftArrow))
+        {
+            cameraManager.followPlayer = false;
+            cameraManager.move(CameraMove.Left);
+        }
+
+        if(Input.GetKey(KeyCode.UpArrow))
+        {
+            cameraManager.followPlayer = false;
+            cameraManager.move(CameraMove.Up);
+        }
+
+        if(Input.GetKey(KeyCode.DownArrow))
+        {
+            cameraManager.followPlayer = false;
+            cameraManager.move(CameraMove.Down);
         }
 
         if(Input.GetKeyDown(KeyCode.Space)){
-            playerManager.move(Move.Jump);
+            playerManager.move(PlayerMove.Jump);
         }
 
         if(!canFire) {
@@ -35,6 +60,11 @@ public class EventManager : MonoBehaviour
         if(Input.GetMouseButton(0) && canFire){
             canFire = false;
             playerManager.shoot();
+        }
+
+        if(Input.GetKey("f"))
+        {
+            cameraManager.followPlayer = !cameraManager.followPlayer;
         }
     }
 }

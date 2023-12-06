@@ -11,7 +11,9 @@ public class BulletScript : MonoBehaviour
     public int damage = 10;
 
 
-    public void Shoot() {
+
+
+    public void Shoot(int destroyDelay) {
         CapsuleCollider capsuleCollider = GetComponent<CapsuleCollider>();
 
         if (capsuleCollider != null)
@@ -28,14 +30,21 @@ public class BulletScript : MonoBehaviour
         Vector3 rotation = mousePos - transform.position;
         rigidBody.isKinematic = false;
         rigidBody.velocity = rotation.normalized * force;
+
+        Invoke("destroy", destroyDelay);
     }
 
     void OnCollisionEnter(Collision collisionInfo) 
     {
         if(collisionInfo.collider.tag == "Player" && !rigidBody.isKinematic)
         {
-            Destroy(gameObject);
+            destroy();
         }
+    }
+
+    void destroy() 
+    {
+        Destroy(gameObject);
     }
 
 }

@@ -9,6 +9,8 @@ public class PlayerManager : MonoBehaviour
     private int currentPlayerId;
     public int minPlayerSpawnPositionX;
     public int maxPlayerSpawnPositionX;
+
+    public int playerChangeTime = 2;
     private List<GameObject> team1Players = new List<GameObject>();
     private List<GameObject> team2Players = new List<GameObject>();
     private bool started = false;
@@ -68,7 +70,7 @@ public class PlayerManager : MonoBehaviour
         shootingComponent.setTurn(true);
     }
 
-    public void move(Move movement)
+    public void move(PlayerMove movement)
     {
         if (started)
         {
@@ -78,9 +80,9 @@ public class PlayerManager : MonoBehaviour
 
     public void shoot()
     {
-        currentPlayer.GetComponentInChildren<Shooting>().shoot();
+        currentPlayer.GetComponentInChildren<Shooting>().shoot(playerChangeTime);
         team1 = !team1;
-        Invoke("changePlayer", 2);
+        Invoke("changePlayer", playerChangeTime);
     }
 
     public float currentPlayerMoveCounter()

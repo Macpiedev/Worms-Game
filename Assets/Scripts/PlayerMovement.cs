@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum Move {
+public enum PlayerMove {
     Left,
     Right,
     Jump,
@@ -40,18 +40,18 @@ public class PlayerMovement : MonoBehaviour
         return moveLimit;
     }
 
-    public void move(Move movement) {
+    public void move(PlayerMove movement) {
         if(moveCounter < moveLimit) {
             moveCounter += moveForce * Time.deltaTime;
             switch(movement)
             {
-                case Move.Left:
+                case PlayerMove.Left:
                     transform.Translate(-moveForce* Time.deltaTime,0,0, Space.World);
                     break;
-                case Move.Right:
+                case PlayerMove.Right:
                     transform.Translate(moveForce* Time.deltaTime,0,0, Space.World);
                     break;
-                case Move.Jump:
+                case PlayerMove.Jump:
                     if(isGrounded) {
                         isGrounded = false;
                         rigidBody.AddForce(jump * jumpForce, ForceMode.Impulse);

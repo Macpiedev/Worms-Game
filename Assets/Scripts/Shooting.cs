@@ -35,10 +35,10 @@ public class Shooting : MonoBehaviour
         isTurn = value;
     }
 
-    public void shoot() {
+    public void shoot(int destroyDelay) {
         Debug.Log("Shoot!");
         GameObject newBullet = Instantiate(bullet, bulletTransform.position, Quaternion.identity);
-        newBullet.GetComponent<BulletScript>().Shoot();
+        newBullet.GetComponent<BulletScript>().Shoot(destroyDelay);
     }
 
 }
