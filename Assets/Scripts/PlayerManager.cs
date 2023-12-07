@@ -1,12 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
     public int teamSize;
     public GameObject playerObject;
     private GameObject currentPlayer;
-    private int currentPlayerId;
+    private int redPlayerTurnId;
+
+    private int bluePlayerTurnId;
     public int minPlayerSpawnPositionX;
     public int maxPlayerSpawnPositionX;
 
@@ -25,7 +28,8 @@ public class PlayerManager : MonoBehaviour
         }
 
         currentPlayer = team1Players[0];
-        currentPlayerId = 0;
+        redPlayerTurnId = 0;
+        bluePlayerTurnId = 0;
         currentPlayer.GetComponentInChildren<Shooting>().setTurn(true);
 
         started = true;
@@ -56,18 +60,31 @@ public class PlayerManager : MonoBehaviour
     {
         currentPlayer.GetComponentInChildren<Shooting>().setTurn(false);
         currentPlayer.GetComponent<PlayerMovement>().resetMoveCounter();
-        if (team1)
-        {
-            currentPlayerId = ++currentPlayerId % teamSize;
-            currentPlayer = team1Players[currentPlayerId];
+        
+        if(team1) {
+            setNextPlayer(ref redPlayerTurnId, ref team1Players);
+        } else {
+            setNextPlayer(ref bluePlayerTurnId, ref team2Players);
         }
-        else
-        {
-            currentPlayer = team2Players[currentPlayerId];
-        }
+        
 
         Shooting shootingComponent = currentPlayer.GetComponentInChildren<Shooting>();
         shootingComponent.setTurn(true);
+    }
+
+    private void setNextPlayer(ref int playerId, ref List<GameObject> team) {
+        playerId = ++playerId % team.Count;
+        currentPlayer = team[playerId];
+        while(currentPlayer == null) {
+            team.Remove(currentPlayer);
+            if(team.Count == 0) {
+                int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+                 SceneManager.LoadScene(currentSceneIndex);
+            }
+            playerId = ++playerId % team.Count;
+            currentPlayer = team[playerId];
+        }
     }
 
     public void move(PlayerMove movement)

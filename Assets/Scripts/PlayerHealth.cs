@@ -15,6 +15,9 @@ public class PlayerHealth : MonoBehaviour
         if(health < 50) {
             text.color = new Color32(255, 23, 22, 255);
         }
+        if(health <= 0) {
+            Destroy(gameObject);
+        }
         text.text = health.ToString();
     }
 }

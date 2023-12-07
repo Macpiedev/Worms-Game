@@ -15,9 +15,9 @@ public class CameraManager : MonoBehaviour
     public bool followPlayer = true;
 
     private float zoom;
-    private float zoommultiplier = 11f;
-    private float minZoom = 20f;
-    private float maxZoom = 100f;
+    public float zoommultiplier = 11f;
+    public float minZoom = 20f;
+    public float maxZoom = 100f;
     private float velocity = 0f;
     private float smoothTime = 0.40f;
 
