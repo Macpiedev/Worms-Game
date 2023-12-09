@@ -10,70 +10,66 @@ public class EventManager : MonoBehaviour
     private float timer;
     public float timeBetweenFiring;
 
-    void Update() {
+    void Update()
+    {
 
-        if(Input.GetKey("d"))
+        if (Input.GetKey("d"))
         {
             playerManager.move(PlayerMove.Right);
         }
-        
-        if(Input.GetKey("a"))
+
+        if (Input.GetKey("a"))
         {
-            playerManager.move(PlayerMove.Left);  
+            playerManager.move(PlayerMove.Left);
         }
 
-        if(Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             playerManager.changeWeapon(0);
         }
-        
-        if(Input.GetKeyDown(KeyCode.Alpha2))
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            playerManager.changeWeapon(1);  
+            playerManager.changeWeapon(1);
         }
 
-        if(Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow))
         {
             cameraManager.followPlayer = false;
             cameraManager.move(CameraMove.Right);
         }
 
-        if(Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
             cameraManager.followPlayer = false;
             cameraManager.move(CameraMove.Left);
         }
 
-        if(Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow))
         {
             cameraManager.followPlayer = false;
             cameraManager.move(CameraMove.Up);
         }
 
-        if(Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow))
         {
             cameraManager.followPlayer = false;
             cameraManager.move(CameraMove.Down);
         }
 
-        if(Input.GetKeyDown(KeyCode.Space)){
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
             playerManager.move(PlayerMove.Jump);
         }
 
-        if(!canFire) {
-            timer += Time.deltaTime;
-            if(timer > timeBetweenFiring) {
-                canFire = true;
-                timer = 0;
-            }
-        }
 
-        if(Input.GetMouseButton(0) && canFire){
+        if (Input.GetMouseButton(0))
+        {
             canFire = false;
             playerManager.shoot();
         }
 
-        if(Input.GetKey("f"))
+        if (Input.GetKey("f"))
         {
             cameraManager.followPlayer = !cameraManager.followPlayer;
         }

@@ -18,6 +18,7 @@ public class PlayerManager : MonoBehaviour
     private List<GameObject> team2Players = new List<GameObject>();
     private bool started = false;
     private bool team1 = true;
+    public bool weaponAvailable = true;
 
     public bool changeWasCalled = false;
 
@@ -62,6 +63,7 @@ public class PlayerManager : MonoBehaviour
     public void changePlayer()
     {
         changeWasCalled = false;
+        weaponAvailable = true;
         currentPlayer.GetComponentInChildren<WeaponManager>().setTurn(false);
         currentPlayer.GetComponent<PlayerInfo>().isCurrentPlayer = false;
         currentPlayer.GetComponent<PlayerMovement>().resetMoveCounter();
@@ -110,10 +112,13 @@ public class PlayerManager : MonoBehaviour
 
     public void shoot()
     {
-        currentPlayer.GetComponentInChildren<WeaponManager>().shoot(playerChangeTime - 3);
-        team1 = !team1;
-        changeWasCalled = true;
-        Invoke("changePlayer", playerChangeTime);
+        if(weaponAvailable) {
+            currentPlayer.GetComponentInChildren<WeaponManager>().shoot(playerChangeTime - 3);
+            team1 = !team1;
+            changeWasCalled = true;
+            weaponAvailable = false;
+            Invoke("changePlayer", playerChangeTime);
+        }
     }
 
     public float currentPlayerMoveCounter()
@@ -128,8 +133,9 @@ public class PlayerManager : MonoBehaviour
     }
 
     public void changeWeapon(int weaponId) {
-        Debug.Log("DEBUG");
-        WeaponManager shootingComponent = currentPlayer.GetComponentInChildren<WeaponManager>();
-        shootingComponent.changeWeapon(weaponId);
+        if(weaponAvailable) {
+            WeaponManager weaponManager = currentPlayer.GetComponentInChildren<WeaponManager>();
+            weaponManager.changeWeapon(weaponId);
+        }
     }
 }

@@ -13,7 +13,7 @@ public class PlayerCollision : MonoBehaviour
             Debug.Log("Something hit!");
             GameObject collisionObject = collisionInfo.gameObject;
 
-            int damage = -collisionObject.GetComponent<BulletScript>().damage;
+            int damage = -collisionObject.GetComponent<IWeapon>().damage();
             ph.healthChange(damage);
         }
     }

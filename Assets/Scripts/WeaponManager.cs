@@ -14,11 +14,9 @@ public class WeaponManager : MonoBehaviour
     void Start()
     {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        chosenBullet = bullets[0];
         foreach (GameObject bullet in bullets) {
             bullet.SetActive(false);
         }
-       chosenBullet.SetActive(true);
     }
 
     void Update()
@@ -36,19 +34,24 @@ public class WeaponManager : MonoBehaviour
     }
 
     public void setTurn(bool value) {
-        chosenBullet = bullets[0];
-        chosenBullet.SetActive(value);
+        chosenBullet = null;
         isTurn = value;
     }
 
     public void shoot(int destroyDelay) {
-        Debug.Log("Shoot!");
-        GameObject newBullet = Instantiate(chosenBullet, bulletTransform.position, Quaternion.identity);
-        newBullet.GetComponent<IWeapon>().activate(destroyDelay);
+        if(chosenBullet != null) {
+            chosenBullet.SetActive(false);
+            GameObject newBullet = Instantiate(chosenBullet, bulletTransform.position, Quaternion.identity);
+            newBullet.SetActive(true);
+            newBullet.GetComponent<IWeapon>().activate(destroyDelay);
+        }
     }
 
     public void changeWeapon(int weaponId) {
-        chosenBullet.SetActive(false);
+        if(chosenBullet != null) {
+            chosenBullet.SetActive(false);
+        }
+
         chosenBullet = bullets[weaponId];
         chosenBullet.SetActive(true);
     }
