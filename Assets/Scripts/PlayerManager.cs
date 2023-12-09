@@ -19,24 +19,28 @@ public class PlayerManager : MonoBehaviour
     private bool started = false;
     private bool team1 = true;
 
+    public bool changeWasCalled = false;
+
     void Start()
     {
         for (int i = 0; i < teamSize; i++)
         {
-            team1Players.Add(setPlayerColor(spawn(), Color.red));
-            team2Players.Add(setPlayerColor(spawn(), Color.blue));
+            team1Players.Add(setPlayerColor(spawn(), Color.red, true));
+            team2Players.Add(setPlayerColor(spawn(), Color.blue, false));
         }
 
         currentPlayer = team1Players[0];
         redPlayerTurnId = 0;
         bluePlayerTurnId = 0;
         currentPlayer.GetComponentInChildren<Shooting>().setTurn(true);
+        currentPlayer.GetComponent<PlayerInfo>().isCurrentPlayer = true;
 
         started = true;
     }
 
-    GameObject setPlayerColor(GameObject player, Color color)
+    GameObject setPlayerColor(GameObject player, Color color, bool isTeam1)
     {
+        player.GetComponent<PlayerInfo>().team1 = isTeam1;
         player.GetComponent<Renderer>().material.SetColor("_Color", color);
         return player;
     }
@@ -55,36 +59,45 @@ public class PlayerManager : MonoBehaviour
     {
         return currentPlayer.transform.position;
     }
-
     public void changePlayer()
     {
+        changeWasCalled = false;
         currentPlayer.GetComponentInChildren<Shooting>().setTurn(false);
+        currentPlayer.GetComponent<PlayerInfo>().isCurrentPlayer = false;
         currentPlayer.GetComponent<PlayerMovement>().resetMoveCounter();
-        
-        if(team1) {
-            setNextPlayer(ref redPlayerTurnId, ref team1Players);
-        } else {
-            setNextPlayer(ref bluePlayerTurnId, ref team2Players);
-        }
-        
 
-        Shooting shootingComponent = currentPlayer.GetComponentInChildren<Shooting>();
-        shootingComponent.setTurn(true);
+        setNextPlayer();
     }
 
-    private void setNextPlayer(ref int playerId, ref List<GameObject> team) {
+    public void setNextPlayer()
+    {
+        if (team1)
+        {
+            setNextPlayer(ref redPlayerTurnId, ref team1Players);
+        }
+        else
+        {
+            setNextPlayer(ref bluePlayerTurnId, ref team2Players);
+        }
+
+    }
+
+    private void setNextPlayer(ref int playerId, ref List<GameObject> team)
+    {
         playerId = ++playerId % team.Count;
         currentPlayer = team[playerId];
-        while(currentPlayer == null) {
-            team.Remove(currentPlayer);
-            if(team.Count == 0) {
-                int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
-                 SceneManager.LoadScene(currentSceneIndex);
-            }
+        int i = 0;
+        while (!currentPlayer.activeSelf)
+        {
             playerId = ++playerId % team.Count;
             currentPlayer = team[playerId];
+            i++;
         }
+
+        currentPlayer.GetComponent<PlayerInfo>().isCurrentPlayer = true;
+        Shooting shootingComponent = currentPlayer.GetComponentInChildren<Shooting>();
+        shootingComponent.setTurn(true);
     }
 
     public void move(PlayerMove movement)
@@ -99,11 +112,13 @@ public class PlayerManager : MonoBehaviour
     {
         currentPlayer.GetComponentInChildren<Shooting>().shoot(playerChangeTime);
         team1 = !team1;
+        changeWasCalled = true;
         Invoke("changePlayer", playerChangeTime);
     }
 
     public float currentPlayerMoveCounter()
     {
+
         return currentPlayer.GetComponent<PlayerMovement>().getMoveCounter();
     }
 

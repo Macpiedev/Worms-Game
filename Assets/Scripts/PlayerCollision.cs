@@ -6,9 +6,9 @@ public class PlayerCollision : MonoBehaviour
 {
     public PlayerHealth ph;
 
-    void OnCollisionEnter(Collision collisionInfo) 
+    void OnCollisionEnter(Collision collisionInfo)
     {
-        if(collisionInfo.collider.tag == "Missle")
+        if (collisionInfo.collider.tag == "Missle")
         {
             Debug.Log("Something hit!");
             GameObject collisionObject = collisionInfo.gameObject;

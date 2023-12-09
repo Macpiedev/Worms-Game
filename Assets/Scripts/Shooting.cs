@@ -12,13 +12,13 @@ public class Shooting : MonoBehaviour
     void Start()
     {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        bullet.active = false;
+        bullet.SetActive(false);
     }
 
     void Update()
     {
         if(isTurn) {
-            bullet.active = true;
+            bullet.SetActive(true);
             float playerAndCamPosDiffZ = transform.position.z - mainCamera.transform.position.z;
             Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition + Vector3.forward * playerAndCamPosDiffZ);
             
@@ -31,7 +31,7 @@ public class Shooting : MonoBehaviour
     }
 
     public void setTurn(bool value) {
-        bullet.active = value;
+        bullet.SetActive(value);
         isTurn = value;
     }
 

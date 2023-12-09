@@ -10,9 +10,6 @@ public class BulletScript : MonoBehaviour
     public float force;
     public int damage = 10;
 
-
-
-
     public void Shoot(int destroyDelay) {
         CapsuleCollider capsuleCollider = GetComponent<CapsuleCollider>();
 
