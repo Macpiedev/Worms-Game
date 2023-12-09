@@ -2,16 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletScript : MonoBehaviour
+public class BulletScript : IWeapon
 {
+    public GameObject explosionEffect;
     private Vector3 mousePos;
     private Camera mainCamera;
     private Rigidbody rigidBody;
-    public float force;
+    public float force = 15f;
+    public float explosionForce = 50f;
     public int damage = 10;
+    public float radius = 5f;
+    public bool isChosen = false;
 
-    public void Shoot(int destroyDelay) {
-        CapsuleCollider capsuleCollider = GetComponent<CapsuleCollider>();
+    public override void activate(int destroyDelay) {
+        Collider capsuleCollider = GetComponent<Collider>();
 
         if (capsuleCollider != null)
         {
@@ -31,16 +35,19 @@ public class BulletScript : MonoBehaviour
         Invoke("destroy", destroyDelay);
     }
 
-    void OnCollisionEnter(Collision collisionInfo) 
-    {
-        if(collisionInfo.collider.tag == "Player" && !rigidBody.isKinematic)
-        {
-            destroy();
-        }
-    }
-
     void destroy() 
     {
+        var effect = Instantiate(explosionEffect, transform.position, transform.rotation);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
+
+        foreach (Collider nearbyObject in colliders) {
+            Rigidbody rb = nearbyObject.GetComponent<Rigidbody>();
+            if(rb != null) {
+                Debug.Log(nearbyObject.gameObject.tag);
+                rb.AddExplosionForce(explosionForce, transform.position, radius, 0f, ForceMode.Impulse);
+            }
+        }
+        Destroy(effect , 1.0f);
         Destroy(gameObject);
     }
 

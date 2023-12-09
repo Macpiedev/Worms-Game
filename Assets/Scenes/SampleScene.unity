@@ -3904,8 +3904,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7340396619662109209, guid: 6398d277af286484ca50e74d40e12244, type: 3}
       propertyPath: damage
-      value: 60
+      value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 7340396619662109209, guid: 6398d277af286484ca50e74d40e12244, type: 3}
+      propertyPath: radius
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7340396619662109209, guid: 6398d277af286484ca50e74d40e12244, type: 3}
+      propertyPath: explosionForce
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7340396619662109209, guid: 6398d277af286484ca50e74d40e12244, type: 3}
+      propertyPath: explosionEffect
+      value: 
+      objectReference: {fileID: 1828176872806910, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
     - target: {fileID: 8493025445374037968, guid: 6398d277af286484ca50e74d40e12244, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -6923,7 +6935,8 @@ MonoBehaviour:
   playerObject: {fileID: 2122578773}
   minPlayerSpawnPositionX: -80
   maxPlayerSpawnPositionX: 30
-  playerChangeTime: 2
+  playerChangeTime: 6
+  changeWasCalled: 0
 --- !u!4 &1046850936
 Transform:
   m_ObjectHideFlags: 0
@@ -13418,6 +13431,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isCurrentPlayer: 0
   team1: 1
+  isDead: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -32,7 +32,7 @@ public class PlayerManager : MonoBehaviour
         currentPlayer = team1Players[0];
         redPlayerTurnId = 0;
         bluePlayerTurnId = 0;
-        currentPlayer.GetComponentInChildren<Shooting>().setTurn(true);
+        currentPlayer.GetComponentInChildren<WeaponManager>().setTurn(true);
         currentPlayer.GetComponent<PlayerInfo>().isCurrentPlayer = true;
 
         started = true;
@@ -62,7 +62,7 @@ public class PlayerManager : MonoBehaviour
     public void changePlayer()
     {
         changeWasCalled = false;
-        currentPlayer.GetComponentInChildren<Shooting>().setTurn(false);
+        currentPlayer.GetComponentInChildren<WeaponManager>().setTurn(false);
         currentPlayer.GetComponent<PlayerInfo>().isCurrentPlayer = false;
         currentPlayer.GetComponent<PlayerMovement>().resetMoveCounter();
 
@@ -96,7 +96,7 @@ public class PlayerManager : MonoBehaviour
         }
 
         currentPlayer.GetComponent<PlayerInfo>().isCurrentPlayer = true;
-        Shooting shootingComponent = currentPlayer.GetComponentInChildren<Shooting>();
+        WeaponManager shootingComponent = currentPlayer.GetComponentInChildren<WeaponManager>();
         shootingComponent.setTurn(true);
     }
 
@@ -110,7 +110,7 @@ public class PlayerManager : MonoBehaviour
 
     public void shoot()
     {
-        currentPlayer.GetComponentInChildren<Shooting>().shoot(playerChangeTime);
+        currentPlayer.GetComponentInChildren<WeaponManager>().shoot(playerChangeTime - 3);
         team1 = !team1;
         changeWasCalled = true;
         Invoke("changePlayer", playerChangeTime);
@@ -125,5 +125,11 @@ public class PlayerManager : MonoBehaviour
     public float getMoveLimit()
     {
         return currentPlayer.GetComponent<PlayerMovement>().getMoveLimit();
+    }
+
+    public void changeWeapon(int weaponId) {
+        Debug.Log("DEBUG");
+        WeaponManager shootingComponent = currentPlayer.GetComponentInChildren<WeaponManager>();
+        shootingComponent.changeWeapon(weaponId);
     }
 }

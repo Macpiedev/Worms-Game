@@ -452,6 +452,10 @@ PrefabInstance:
       propertyPath: force
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 4670212150903718423, guid: 497e706b3b0d9d24a8677e1043f1617e, type: 3}
+      propertyPath: explosionEffect
+      value: 
+      objectReference: {fileID: 1121192042590650, guid: e1b08032bec16ba4eb1ae23cbd572664, type: 3}
     - target: {fileID: 5822300297145083870, guid: 497e706b3b0d9d24a8677e1043f1617e, type: 3}
       propertyPath: m_Name
       value: Bullet

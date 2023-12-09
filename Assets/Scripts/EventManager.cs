@@ -22,6 +22,16 @@ public class EventManager : MonoBehaviour
             playerManager.move(PlayerMove.Left);  
         }
 
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            playerManager.changeWeapon(0);
+        }
+        
+        if(Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            playerManager.changeWeapon(1);  
+        }
+
         if(Input.GetKey(KeyCode.RightArrow))
         {
             cameraManager.followPlayer = false;
