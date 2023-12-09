@@ -19,15 +19,20 @@ public class PlayerManager : MonoBehaviour
     private bool started = false;
     private bool team1 = true;
     public bool weaponAvailable = true;
-
     public bool changeWasCalled = false;
 
+    private int team1Size;
+    private int team2Size;
+
     void Start()
-    {
+    {   
+        team1Size = teamSize;
+        team2Size = teamSize;
+        Debug.Log(team1Size);
         for (int i = 0; i < teamSize; i++)
         {
-            team1Players.Add(setPlayerColor(spawn(), Color.red, true));
-            team2Players.Add(setPlayerColor(spawn(), Color.blue, false));
+            team1Players.Add(setPlayerColor(spawn(), Color.red, 1));
+            team2Players.Add(setPlayerColor(spawn(), Color.blue, 2));
         }
 
         currentPlayer = team1Players[0];
@@ -39,9 +44,25 @@ public class PlayerManager : MonoBehaviour
         started = true;
     }
 
-    GameObject setPlayerColor(GameObject player, Color color, bool isTeam1)
+    public void changeTeamSize(int teamId) {
+        if(teamId == 1) {
+            team1Size -= 1;
+        } else {
+            team2Size -= 1;
+        }
+    }
+
+    public int getTeam1Size() {
+        return team1Size;
+    }
+
+    public int getTeam2Size() {
+        return team2Size;
+    }
+
+    GameObject setPlayerColor(GameObject player, Color color, int teamId)
     {
-        player.GetComponent<PlayerInfo>().team1 = isTeam1;
+        player.GetComponent<PlayerInfo>().teamId = teamId;
         player.GetComponent<Renderer>().material.SetColor("_Color", color);
         return player;
     }

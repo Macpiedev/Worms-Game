@@ -5,6 +5,6 @@ using UnityEngine;
 public class PlayerInfo : MonoBehaviour
 {
     public bool isCurrentPlayer = false;
-    public bool team1 = true;
+    public int teamId = 0;
     public bool isDead = false;
 }

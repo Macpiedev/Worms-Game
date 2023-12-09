@@ -13,5 +13,6 @@ public class DetectPlayer : MonoBehaviour
            }
         }
         other.gameObject.SetActive(false);
+        playerManager.changeTeamSize(other.gameObject.GetComponent<PlayerInfo>().teamId);
     }
 }

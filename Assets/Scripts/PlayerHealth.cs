@@ -3,6 +3,7 @@ using TMPro;
 
 public class PlayerHealth : MonoBehaviour
 {
+    public PlayerManager playerManager;
     private int health = 100;
     public TMP_Text text;
 
@@ -17,6 +18,7 @@ public class PlayerHealth : MonoBehaviour
         }
         if(health <= 0) {
             gameObject.SetActive(false);
+            playerManager.changeTeamSize(gameObject.GetComponent<PlayerInfo>().teamId);
         }
         text.text = health.ToString();
     }
