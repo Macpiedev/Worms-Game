@@ -25,7 +25,7 @@ public class PlayerManager : MonoBehaviour
     private int team2Size;
 
     void Start()
-    {   
+    {
         team1Size = teamSize;
         team2Size = teamSize;
         Debug.Log(team1Size);
@@ -44,19 +44,25 @@ public class PlayerManager : MonoBehaviour
         started = true;
     }
 
-    public void changeTeamSize(int teamId) {
-        if(teamId == 1) {
+    public void changeTeamSize(int teamId)
+    {
+        if (teamId == 1)
+        {
             team1Size -= 1;
-        } else {
+        }
+        else
+        {
             team2Size -= 1;
         }
     }
 
-    public int getTeam1Size() {
+    public int getTeam1Size()
+    {
         return team1Size;
     }
 
-    public int getTeam2Size() {
+    public int getTeam2Size()
+    {
         return team2Size;
     }
 
@@ -119,8 +125,8 @@ public class PlayerManager : MonoBehaviour
         }
 
         currentPlayer.GetComponent<PlayerInfo>().isCurrentPlayer = true;
-        WeaponManager shootingComponent = currentPlayer.GetComponentInChildren<WeaponManager>();
-        shootingComponent.setTurn(true);
+        WeaponManager weaponManager = currentPlayer.GetComponentInChildren<WeaponManager>();
+        weaponManager.setTurn(true);
     }
 
     public void move(PlayerMove movement)
@@ -131,15 +137,20 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void shoot()
+    public void activateWeapon()
     {
-        if(weaponAvailable) {
-            currentPlayer.GetComponentInChildren<WeaponManager>().shoot(playerChangeTime - 3);
-            team1 = !team1;
-            changeWasCalled = true;
+        if (weaponAvailable)
+        {
             weaponAvailable = false;
-            Invoke("changePlayer", playerChangeTime);
+            currentPlayer.GetComponentInChildren<WeaponManager>().activate(postAttackCallback);
+
         }
+    }
+
+    public void postAttackCallback() {
+        changePlayer();
+        team1 = !team1;
+        changeWasCalled = true;
     }
 
     public float currentPlayerMoveCounter()
@@ -153,8 +164,10 @@ public class PlayerManager : MonoBehaviour
         return currentPlayer.GetComponent<PlayerMovement>().getMoveLimit();
     }
 
-    public void changeWeapon(int weaponId) {
-        if(weaponAvailable) {
+    public void changeWeapon(int weaponId)
+    {
+        if (weaponAvailable)
+        {
             WeaponManager weaponManager = currentPlayer.GetComponentInChildren<WeaponManager>();
             weaponManager.changeWeapon(weaponId);
         }

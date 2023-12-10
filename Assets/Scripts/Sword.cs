@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ball : IWeapon
+public class Sword : IWeapon
 {
     private Vector3 mousePos;
     private Camera mainCamera;
@@ -10,15 +10,13 @@ public class Ball : IWeapon
     public float force = 15f;
     public int damagePower = 10;
 
-    public override IEnumerator activate(ChangePlayerDelegate postAttackCallback)
-    {
+    public override IEnumerator activate(ChangePlayerDelegate postAttackCallback) {
         Collider capsuleCollider = GetComponent<Collider>();
 
         if (capsuleCollider != null)
         {
             capsuleCollider.enabled = true;
         }
-
 
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         rigidBody = GetComponent<Rigidbody>();
@@ -33,10 +31,8 @@ public class Ball : IWeapon
         postAttackCallback();
     }
 
-    public override int damage()
-    {
+    public override int damage() {
         return damagePower;
     }
-
 
 }

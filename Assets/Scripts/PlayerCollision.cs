@@ -10,7 +10,6 @@ public class PlayerCollision : MonoBehaviour
     {
         if (collisionInfo.collider.tag == "Missle")
         {
-            Debug.Log("Something hit!");
             GameObject collisionObject = collisionInfo.gameObject;
 
             int damage = -collisionObject.GetComponent<IWeapon>().damage();

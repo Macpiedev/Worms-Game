@@ -14,41 +14,54 @@ public class WeaponManager : MonoBehaviour
     void Start()
     {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        foreach (GameObject bullet in bullets) {
+        foreach (GameObject bullet in bullets)
+        {
             bullet.SetActive(false);
         }
     }
 
     void Update()
     {
-        if(isTurn) {
+        if (isTurn)
+        {
             float playerAndCamPosDiffZ = transform.position.z - mainCamera.transform.position.z;
             Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition + Vector3.forward * playerAndCamPosDiffZ);
-            
+
             Vector3 rotation = mousePos - transform.position;
 
-            float rotZ = Mathf.Atan2(rotation.y,  rotation.x) * Mathf.Rad2Deg;
+            float rotZ = Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg;
 
             transform.rotation = Quaternion.Euler(0, 0, rotZ);
         }
     }
 
-    public void setTurn(bool value) {
+    public void setTurn(bool value)
+    {
         chosenBullet = null;
         isTurn = value;
     }
 
-    public void shoot(int destroyDelay) {
-        if(chosenBullet != null) {
+    public void activate(ChangePlayerDelegate postAttackCallback)
+    {
+        if (chosenBullet != null)
+        {
             chosenBullet.SetActive(false);
-            GameObject newBullet = Instantiate(chosenBullet, bulletTransform.position, Quaternion.identity);
+            GameObject newBullet = Instantiate(chosenBullet, chosenBullet.transform.position, chosenBullet.transform.rotation);
             newBullet.SetActive(true);
-            newBullet.GetComponent<IWeapon>().activate(destroyDelay);
+            IWeapon weapon = newBullet.GetComponent<IWeapon>();
+            StartCoroutine(weapon.activate(postAttackCallback));
         }
     }
 
-    public void changeWeapon(int weaponId) {
-        if(chosenBullet != null) {
+    public void changeWeapon(int weaponId)
+    {
+        if (weaponId > bullets.Count - 1)
+        {
+            return;
+        }
+
+        if (chosenBullet != null)
+        {
             chosenBullet.SetActive(false);
         }
 

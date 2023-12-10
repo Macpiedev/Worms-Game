@@ -7,12 +7,18 @@ public class DetectPlayer : MonoBehaviour
     public PlayerManager playerManager;
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.GetComponent<PlayerInfo>().isCurrentPlayer) {
+        GameObject gameObject = other.gameObject;
+        if(gameObject.tag != "Player") {
+            return;
+        }
+
+        if(gameObject.GetComponent<PlayerInfo>().isCurrentPlayer) {
            if(!playerManager.changeWasCalled) {
                 playerManager.changePlayer();
            }
         }
-        other.gameObject.SetActive(false);
-        playerManager.changeTeamSize(other.gameObject.GetComponent<PlayerInfo>().teamId);
+        
+        gameObject.SetActive(false);
+        playerManager.changeTeamSize(gameObject.GetComponent<PlayerInfo>().teamId);
     }
 }

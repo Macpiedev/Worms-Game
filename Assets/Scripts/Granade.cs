@@ -12,8 +12,12 @@ public class Granade : IWeapon
     public float explosionForce = 50f;
     public int damagePower = 10;
     public float radius = 5f;
+    public int destroyDelay = 2;
 
-    public override void activate(int destroyDelay) {
+    public int explosionDamage = 30;
+
+    public override IEnumerator activate(ChangePlayerDelegate postAttackCallback)
+    {
         Collider capsuleCollider = GetComponent<Collider>();
 
         if (capsuleCollider != null)
@@ -31,26 +35,38 @@ public class Granade : IWeapon
         rigidBody.isKinematic = false;
         rigidBody.velocity = rotation.normalized * force;
 
-        Invoke("destroy", destroyDelay);
+        yield return new WaitForSeconds(2);
+        destroy();
+        yield return new WaitForSeconds(2);
+        postAttackCallback();
     }
 
-    public override int damage() {
+    public override int damage()
+    {
         return damagePower;
     }
-    
-    void destroy() 
+
+    void destroy()
     {
         var effect = Instantiate(explosionEffect, transform.position, transform.rotation);
         Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
 
-        foreach (Collider nearbyObject in colliders) {
+        foreach (Collider nearbyObject in colliders)
+        {
             Rigidbody rb = nearbyObject.GetComponent<Rigidbody>();
-            if(rb != null) {
-                Debug.Log(nearbyObject.gameObject.tag);
-                rb.AddExplosionForce(explosionForce, transform.position, radius, 0f, ForceMode.Impulse);
+            if (rb == null)
+            {
+                continue;
             }
+
+            if (nearbyObject.gameObject.tag == "Player")
+            {
+                nearbyObject.GetComponent<PlayerHealth>().healthChange(-explosionDamage);
+            }
+            rb.AddExplosionForce(explosionForce, transform.position, radius, 0f, ForceMode.Impulse);
+
         }
-        Destroy(effect , 1.0f);
+        Destroy(effect, 1.0f);
         Destroy(gameObject);
     }
 

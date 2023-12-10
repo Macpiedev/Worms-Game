@@ -33,6 +33,17 @@ public class EventManager : MonoBehaviour
             playerManager.changeWeapon(1);
         }
 
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            playerManager.changeWeapon(2);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            playerManager.changeWeapon(3);
+        }
+
+
         if (Input.GetKey(KeyCode.RightArrow))
         {
             cameraManager.followPlayer = false;
@@ -66,7 +77,7 @@ public class EventManager : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             canFire = false;
-            playerManager.shoot();
+            playerManager.activateWeapon();
         }
 
         if (Input.GetKey("f"))
