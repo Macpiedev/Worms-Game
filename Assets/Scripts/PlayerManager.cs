@@ -28,7 +28,6 @@ public class PlayerManager : MonoBehaviour
     {
         team1Size = teamSize;
         team2Size = teamSize;
-        Debug.Log(team1Size);
         for (int i = 0; i < teamSize; i++)
         {
             team1Players.Add(setPlayerColor(spawn(), Color.red, 1));
@@ -141,9 +140,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (weaponAvailable)
         {
-            weaponAvailable = false;
-            currentPlayer.GetComponentInChildren<WeaponManager>().activate(postAttackCallback);
-
+            weaponAvailable = !currentPlayer.GetComponentInChildren<WeaponManager>().activate(postAttackCallback);
         }
     }
 

@@ -29,6 +29,7 @@ public class Sword : IWeapon
 
         yield return new WaitForSeconds(2);
         postAttackCallback();
+        Destroy(gameObject);
     }
 
     public override int damage() {

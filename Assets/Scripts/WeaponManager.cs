@@ -41,7 +41,7 @@ public class WeaponManager : MonoBehaviour
         isTurn = value;
     }
 
-    public void activate(ChangePlayerDelegate postAttackCallback)
+    public bool activate(ChangePlayerDelegate postAttackCallback)
     {
         if (chosenBullet != null)
         {
@@ -50,11 +50,15 @@ public class WeaponManager : MonoBehaviour
             newBullet.SetActive(true);
             IWeapon weapon = newBullet.GetComponent<IWeapon>();
             StartCoroutine(weapon.activate(postAttackCallback));
+            return true;
         }
+
+        return false;
     }
 
     public void changeWeapon(int weaponId)
     {
+        Debug.Log("Weapon select");
         if (weaponId > bullets.Count - 1)
         {
             return;

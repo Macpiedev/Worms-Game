@@ -30,6 +30,7 @@ public class Ball : IWeapon
         rigidBody.velocity = rotation.normalized * force;
 
         yield return new WaitForSeconds(2);
+        Destroy(gameObject);
         postAttackCallback();
     }
 
