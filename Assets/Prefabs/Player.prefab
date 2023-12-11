@@ -766,7 +766,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4670212150903718423, guid: 497e706b3b0d9d24a8677e1043f1617e, type: 3}
       propertyPath: radius
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4670212150903718423, guid: 497e706b3b0d9d24a8677e1043f1617e, type: 3}
       propertyPath: damagePower
