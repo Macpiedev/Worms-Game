@@ -28,7 +28,6 @@ public class PlayerManager : MonoBehaviour
     {
         team1Size = teamSize;
         team2Size = teamSize;
-        Debug.Log(team1Size);
         for (int i = 0; i < teamSize; i++)
         {
             team1Players.Add(setPlayerColor(spawn(), Color.red, 1));
@@ -141,9 +140,11 @@ public class PlayerManager : MonoBehaviour
     {
         if (weaponAvailable)
         {
-            weaponAvailable = false;
-            currentPlayer.GetComponentInChildren<WeaponManager>().activate(postAttackCallback);
-
+            if(currentPlayer.activeSelf) {
+                weaponAvailable = !currentPlayer.GetComponentInChildren<WeaponManager>().activate(postAttackCallback);
+            } else {
+                postAttackCallback();
+            }
         }
     }
 
@@ -157,19 +158,24 @@ public class PlayerManager : MonoBehaviour
     {
 
         return currentPlayer.GetComponent<PlayerMovement>().getMoveCounter();
+
     }
 
     public float getMoveLimit()
     {
+       
         return currentPlayer.GetComponent<PlayerMovement>().getMoveLimit();
+
     }
 
     public void changeWeapon(int weaponId)
     {
         if (weaponAvailable)
         {
-            WeaponManager weaponManager = currentPlayer.GetComponentInChildren<WeaponManager>();
-            weaponManager.changeWeapon(weaponId);
+            if(currentPlayer.activeSelf) {
+                WeaponManager weaponManager = currentPlayer.GetComponentInChildren<WeaponManager>();
+                weaponManager.changeWeapon(weaponId);
+            }
         }
     }
 }

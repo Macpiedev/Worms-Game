@@ -53,6 +53,11 @@ public class Granade : IWeapon
 
         foreach (Collider nearbyObject in colliders)
         {
+            if (nearbyObject.gameObject.tag == "Destructible")
+            {
+                Destroy(nearbyObject.gameObject);
+            }
+
             Rigidbody rb = nearbyObject.GetComponent<Rigidbody>();
             if (rb == null)
             {
@@ -63,6 +68,7 @@ public class Granade : IWeapon
             {
                 nearbyObject.GetComponent<PlayerHealth>().healthChange(-explosionDamage);
             }
+
             rb.AddExplosionForce(explosionForce, transform.position, radius, 0f, ForceMode.Impulse);
 
         }

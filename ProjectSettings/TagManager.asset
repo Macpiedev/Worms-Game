@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Missle
   - DeathSpace
+  - Destructible
   layers:
   - Default
   - TransparentFX
