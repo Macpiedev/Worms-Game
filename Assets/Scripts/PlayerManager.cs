@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -24,6 +23,7 @@ public class PlayerManager : MonoBehaviour
     private int team1Size;
     private int team2Size;
 
+    public CameraManager cameraManager;
     void Start()
     {
         team1Size = teamSize;
@@ -68,7 +68,9 @@ public class PlayerManager : MonoBehaviour
     GameObject setPlayerColor(GameObject player, Color color, int teamId)
     {
         player.GetComponent<PlayerInfo>().teamId = teamId;
-        player.GetComponent<Renderer>().material.SetColor("_Color", color);
+        Transform childTransform = player.transform.Find("Worm").Find("Body");
+        GameObject bodyObject = childTransform.gameObject;
+        bodyObject.GetComponent<Renderer>().material.SetColor("_Color", color);
         return player;
     }
 
@@ -79,7 +81,7 @@ public class PlayerManager : MonoBehaviour
 
     GameObject spawn()
     {
-        return Instantiate(playerObject, new Vector3(Random.Range(minPlayerSpawnPositionX, maxPlayerSpawnPositionX), 50, 0), Quaternion.Euler(0, 0, 0));
+        return Instantiate(playerObject, new Vector3(Random.Range(minPlayerSpawnPositionX, maxPlayerSpawnPositionX), 20, 0), playerObject.transform.rotation);
     }
 
     public Vector3 currentPlayerPosition()
@@ -99,7 +101,7 @@ public class PlayerManager : MonoBehaviour
 
     public void setNextPlayer()
     {
-        if (team1)
+        if (!team1)
         {
             setNextPlayer(ref redPlayerTurnId, ref team1Players);
         }
@@ -132,7 +134,19 @@ public class PlayerManager : MonoBehaviour
     {
         if (started)
         {
+            if (movement != PlayerMove.Jump)
+            {
+                var prevMove = currentPlayer.GetComponent<PlayerInfo>().prevPlayerMove;
+                Debug.Log(prevMove);
+                if (prevMove != movement && (movement == PlayerMove.Right || movement == PlayerMove.Left))
+                {
+                    rotateCurrentPlayer180();
+                }
+                currentPlayer.GetComponent<PlayerInfo>().prevPlayerMove = movement;
+            }
+
             currentPlayer.GetComponent<PlayerMovement>().move(movement);
+
         }
     }
 
@@ -140,15 +154,20 @@ public class PlayerManager : MonoBehaviour
     {
         if (weaponAvailable)
         {
-            if(currentPlayer.activeSelf) {
+            if (currentPlayer.activeSelf)
+            {
                 weaponAvailable = !currentPlayer.GetComponentInChildren<WeaponManager>().activate(postAttackCallback);
-            } else {
+            }
+            else
+            {
                 postAttackCallback();
             }
         }
     }
 
-    public void postAttackCallback() {
+    public void postAttackCallback()
+    {
+        cameraManager.followPlayer = true;
         changePlayer();
         team1 = !team1;
         changeWasCalled = true;
@@ -163,7 +182,7 @@ public class PlayerManager : MonoBehaviour
 
     public float getMoveLimit()
     {
-       
+
         return currentPlayer.GetComponent<PlayerMovement>().getMoveLimit();
 
     }
@@ -172,10 +191,23 @@ public class PlayerManager : MonoBehaviour
     {
         if (weaponAvailable)
         {
-            if(currentPlayer.activeSelf) {
+            if (currentPlayer.activeSelf)
+            {
                 WeaponManager weaponManager = currentPlayer.GetComponentInChildren<WeaponManager>();
                 weaponManager.changeWeapon(weaponId);
             }
         }
+    }
+
+    public void rotateCurrentPlayer180()
+    {
+        Transform childTransform = currentPlayer.transform.Find("Worm");
+        Vector3 currentRotation = childTransform.rotation.eulerAngles;
+
+        float newYRotation = currentRotation.y + 180f;
+
+        Quaternion newRotation = Quaternion.Euler(currentRotation.x, newYRotation, currentRotation.z);
+
+        childTransform.rotation = newRotation;
     }
 }

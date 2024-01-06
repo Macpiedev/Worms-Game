@@ -21,16 +21,28 @@ public class CameraManager : MonoBehaviour
     private float velocity = 0f;
     private float smoothTime = 0.40f;
 
+    public bool followWeapon = false;
+
+    public Vector3 weaponPosition;
+
     void Start()
     {
         zoom = GetComponent<Camera>().fieldOfView;
+    }
+
+    public void setW(Vector3 w) {
+        weaponPosition = w;
     }
 
     void FixedUpdate()
     {
         if (followPlayer)
         {
-            goToPlayer();
+            followObject(playerManager.currentPlayerPosition());
+        }
+
+        if (followWeapon) {
+            followObject(weaponPosition);
         }
 
         float scroll = Input.GetAxis("Mouse ScrollWheel");
@@ -42,9 +54,9 @@ public class CameraManager : MonoBehaviour
 
 
 
-    private void goToPlayer()
+    private void followObject(Vector3 objectPosition)
     {   
-        Vector3 desiredPosition = playerManager.currentPlayerPosition() + offset;
+        Vector3 desiredPosition = objectPosition + offset;
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
 
         transform.position = smoothedPosition;     

@@ -18,7 +18,10 @@ public class PlayerHealth : MonoBehaviour
         }
         if(health <= 0) {
             gameObject.SetActive(false);
+            
             playerManager.changeTeamSize(gameObject.GetComponent<PlayerInfo>().teamId);
+
+            return;
         }
         text.text = health.ToString();
     }

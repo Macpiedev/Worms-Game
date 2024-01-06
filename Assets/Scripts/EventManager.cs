@@ -6,7 +6,6 @@ public class EventManager : MonoBehaviour
 {
     public PlayerManager playerManager;
     public CameraManager cameraManager;
-    public bool canFire = true;
     private float timer;
     public float timeBetweenFiring;
 
@@ -21,6 +20,7 @@ public class EventManager : MonoBehaviour
         if (Input.GetKey("a"))
         {
             playerManager.move(PlayerMove.Left);
+            Debug.Log("XD");
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -76,7 +76,6 @@ public class EventManager : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            canFire = false;
             playerManager.activateWeapon();
         }
 

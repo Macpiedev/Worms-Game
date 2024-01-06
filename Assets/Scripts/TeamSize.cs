@@ -8,14 +8,14 @@ using UnityEngine;
 public class TeamSize : MonoBehaviour
 {
     public PlayerManager playerManager;
+    public GameStarter gameStarter;
 
     public TMP_Text textScoreTeam1;
     public TMP_Text textScoreTeam2;
 
     void Update() {
         if(playerManager.getTeam1Size() <= 0 || playerManager.getTeam2Size() <= 0) {
-            int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-            SceneManager.LoadScene(currentSceneIndex);
+            gameStarter.LoadScene(0);
         }
 
         textScoreTeam1.text = playerManager.getTeam1Size().ToString();
