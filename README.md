@@ -1,6 +1,6 @@
 # Worms Game Project
 
-Worms game created in Unity for classes on University Of Wroclaw.
+Worms game created in Unity for classes at the University of Wroclaw.
 
 # Controls
 ASWD - Player movement.
