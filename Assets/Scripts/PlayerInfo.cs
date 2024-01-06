@@ -7,4 +7,5 @@ public class PlayerInfo : MonoBehaviour
     public bool isCurrentPlayer = false;
     public int teamId = 0;
     public bool isDead = false;
+    public PlayerMove prevPlayerMove = PlayerMove.Right;
 }

@@ -10,8 +10,11 @@ public class Ball : IWeapon
     public float force = 15f;
     public int damagePower = 10;
 
+
     public override IEnumerator activate(ChangePlayerDelegate postAttackCallback)
     {
+
+
         Collider capsuleCollider = GetComponent<Collider>();
 
         if (capsuleCollider != null)
@@ -19,8 +22,10 @@ public class Ball : IWeapon
             capsuleCollider.enabled = true;
         }
 
-
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        cameraManager = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraManager>();
+        cameraManager.followWeapon = true;
+        cameraManager.followPlayer = false;
         rigidBody = GetComponent<Rigidbody>();
 
         float playerAndCamPosDiffZ = transform.position.z - mainCamera.transform.position.z;
@@ -29,15 +34,16 @@ public class Ball : IWeapon
         rigidBody.isKinematic = false;
         rigidBody.velocity = rotation.normalized * force;
 
-        yield return new WaitForSeconds(2);
-        Destroy(gameObject);
+        yield return new WaitForSeconds(4);
+        cameraManager.followWeapon = false;
         postAttackCallback();
+        Destroy(gameObject);
     }
 
+ 
     public override int damage()
     {
         return damagePower;
     }
-
 
 }

@@ -8,6 +8,7 @@ public class DetectPlayer : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         GameObject gameObject = other.gameObject;
+        Debug.Log(gameObject.tag);
         if(gameObject.tag != "Player") {
             return;
         }

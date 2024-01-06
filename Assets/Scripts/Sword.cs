@@ -27,6 +27,7 @@ public class Sword : IWeapon
         rigidBody.isKinematic = false;
         rigidBody.velocity = rotation.normalized * force;
 
+        GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(2);
         postAttackCallback();
         Destroy(gameObject);

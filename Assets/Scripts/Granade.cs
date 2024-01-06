@@ -16,6 +16,8 @@ public class Granade : IWeapon
 
     public int explosionDamage = 30;
 
+    [SerializeField] private AudioSource audioSource;
+
     public override IEnumerator activate(ChangePlayerDelegate postAttackCallback)
     {
         Collider capsuleCollider = GetComponent<Collider>();
@@ -27,6 +29,9 @@ public class Granade : IWeapon
 
 
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        cameraManager = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraManager>();
+        cameraManager.followWeapon = true;
+        cameraManager.followPlayer = false;
         rigidBody = GetComponent<Rigidbody>();
 
         float playerAndCamPosDiffZ = transform.position.z - mainCamera.transform.position.z;
@@ -34,11 +39,13 @@ public class Granade : IWeapon
         Vector3 rotation = mousePos - transform.position;
         rigidBody.isKinematic = false;
         rigidBody.velocity = rotation.normalized * force;
-
         yield return new WaitForSeconds(2);
+        audioSource.Play();
+        cameraManager.followWeapon = false;
         destroy();
         yield return new WaitForSeconds(2);
         postAttackCallback();
+        Destroy(gameObject);
     }
 
     public override int damage()
@@ -73,7 +80,15 @@ public class Granade : IWeapon
 
         }
         Destroy(effect, 1.0f);
-        Destroy(gameObject);
+        Renderer[] renderers = GetComponentsInChildren<Renderer>();
+        if (renderers.Length > 0)
+        {
+            // Access methods or variables from each script instance
+            foreach (Renderer renderer in renderers)
+            {
+                renderer.enabled = false;
+            }
+        }
     }
 
 }

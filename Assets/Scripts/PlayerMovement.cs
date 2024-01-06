@@ -3,8 +3,7 @@ using UnityEngine;
 public enum PlayerMove {
     Left,
     Right,
-    Jump,
-    Shoot
+    Jump
 }
 
 public class PlayerMovement : MonoBehaviour
